@@ -1,8 +1,6 @@
 package br.uff.ic.devappcorp.controllers;
 
-import br.uff.ic.devappcorp.entities.Book;
-import br.uff.ic.devappcorp.entities.BookDto;
-import br.uff.ic.devappcorp.repositories.BookService;
+import br.uff.ic.devappcorp.repositories.StudentRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +15,10 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/books")
 public class BookController {
-    private BookService bookService;
+    private StudentRepository bookService;
 
     @Autowired
-    public BookController(BookService bookService){
+    public BookController(StudentRepository bookService){
         this.bookService = bookService;
     }
 
