@@ -2,20 +2,20 @@ package br.uff.ic.devappcorp.controllers;
 
 import br.uff.ic.devappcorp.entities.Student;
 import br.uff.ic.devappcorp.entities.StudentDto;
+import br.uff.ic.devappcorp.exception.ResourceNotFoundException;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/books")
+@RestController
+@RequestMapping(value = "students", produces = "application/json;charset=UTF-8")
 public class StudentController {
     private final StudentRepository studentRepository;
 
@@ -24,7 +24,7 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public List<StudentDto> findAll() {
         ArrayList<Student> students = Lists.newArrayList(studentRepository.findAll());
         List<StudentDto> bookDtos = students
@@ -34,31 +34,44 @@ public class StudentController {
         return bookDtos;
     }
 
-    @RequestMapping(value = "/{bookId}", method = RequestMethod.GET)
-    public StudentDto findOne(@PathVariable Integer id) {
-        Student student = studentRepository.findOne(id);
+    @RequestMapping(value = "/{studentId}", method = RequestMethod.GET)
+    public StudentDto findOne(@PathVariable Integer studentId) {
+        Student student = studentRepository.findOne(studentId);
+        if(student == null) throw new ResourceNotFoundException();
+
         return StudentDto.fromStudent(student);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String create(StudentDto bindingModel) {
         studentRepository.save(bindingModel.toStudent());
         return "Saved";
     }
 
-    @RequestMapping(value = "/{studentCpf}", method = RequestMethod.PUT)
-    public String update(@PathVariable Integer studentCpf, StudentDto bindingModel) {
-        Student student = bindingModel.toStudent();
-        student.setCpf(studentCpf);
+    @RequestMapping(value = "/{studentId}", method = RequestMethod.PUT)
+    public void update(@PathVariable Integer studentId, StudentDto bindingModel) {
+        Student student = studentRepository.findOne(studentId);
+        if(student == null) throw new ResourceNotFoundException();
+
+        student = bindingModel.toStudent();
+        student.setCpf(studentId);
 
         studentRepository.save(student);
-        return "Updated";
     }
 
-    @RequestMapping(value = "/{bookId}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable Integer id) {
-        studentRepository.delete(id);
-        return "Removed";
+    @RequestMapping(value = "/{studentId}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Integer studentId) {
+        Student student = studentRepository.findOne(studentId);
+        if(student == null) throw new ResourceNotFoundException();
+
+        studentRepository.delete(student);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public void handleResourceNotFoundException(ResourceNotFoundException ex)
+    {
+        //Log.warn("user requested a resource which didn't exist", ex);
     }
 
 }
