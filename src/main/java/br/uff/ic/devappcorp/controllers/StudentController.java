@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/books")
 public class StudentController {
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
     public StudentController(StudentRepository studentRepository){
