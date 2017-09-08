@@ -1,14 +1,16 @@
 package br.uff.ic.devappcorp.entities;
 
+import br.uff.ic.devappcorp.entities.base.BaseEntity;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Classroom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer code;
+public class Classroom extends BaseEntity {
+    @Column
     private Integer year;
+
+    @Column
     private Integer semester;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -18,15 +20,7 @@ public class Classroom {
     private Professor professor;
 
     public Classroom() {
-    }
 
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
     }
 
     public Integer getYear() {

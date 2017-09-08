@@ -1,19 +1,24 @@
 package br.uff.ic.devappcorp.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import br.uff.ic.devappcorp.entities.base.BaseEntity;
+
+import javax.persistence.*;
 
 @Entity
-public abstract class Person {
-    @Id
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Person extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private Integer cpf;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
 
     protected Person() {
-    }
 
+    }
 
     public Integer getCpf() {
         return cpf;
@@ -23,12 +28,12 @@ public abstract class Person {
         this.cpf = cpf;
     }
 
-    public String getName() {
-        return name;
+    public PersonName getName() {
+        return PersonName.create(name).getResult();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(PersonName name) {
+        this.name = name.getFullName();
     }
 
     public String getEmail() {

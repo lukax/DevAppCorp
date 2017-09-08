@@ -15,7 +15,7 @@ public class StudentDto {
     public static StudentDto fromStudent(Student student){
         StudentDto dto = new StudentDto();
         dto.cpf = student.getCpf();
-        dto.name = student.getName();
+        dto.name = student.getName().getFullName();
         dto.email = student.getEmail();
         return dto;
     }
@@ -24,7 +24,7 @@ public class StudentDto {
         Student student = new Student();
         student.setCpf(cpf);
         student.setEmail(email);
-        student.setName(name);
+        student.setName(PersonName.create(name).getResult());
         return student;
     }
 
