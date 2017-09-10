@@ -1,10 +1,15 @@
 package br.uff.ic.devappcorp.entities;
 
+import br.uff.ic.devappcorp.entities.base.BaseEntity;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Student extends Person {
+public class Student extends BaseEntity {
+
+    @OneToOne
+    private PersonDetail personDetail;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Professor advisor;
@@ -12,7 +17,14 @@ public class Student extends Person {
     @ManyToMany
     private List<Classroom> classrooms;
 
-    public Student() {
+    protected Student() { } // jpa only
+
+    public Student(PersonDetail personDetail) {
+        this.personDetail = personDetail;
+    }
+
+    public PersonDetail getPersonDetail() {
+        return personDetail;
     }
 
     public Professor getAdvisor() {
@@ -30,5 +42,6 @@ public class Student extends Person {
     public void setClassrooms(List<Classroom> classrooms) {
         this.classrooms = classrooms;
     }
+
 }
 

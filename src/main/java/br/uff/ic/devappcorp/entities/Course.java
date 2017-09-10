@@ -7,12 +7,11 @@ import javax.persistence.Entity;
 
 @Entity
 public class Course extends BaseEntity {
+
     @Column
     private String description;
 
-    public Course() {
-
-    }
+    protected Course() { } // jpa only
 
     public String getDescription() {
         return description;

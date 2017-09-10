@@ -1,15 +1,19 @@
 package br.uff.ic.devappcorp.controllers;
 
-import br.uff.ic.devappcorp.entities.Student;
-import br.uff.ic.devappcorp.entities.StudentDto;
-import br.uff.ic.devappcorp.exception.ResourceNotFoundException;
+import br.uff.ic.devappcorp.entities.*;
+import br.uff.ic.devappcorp.exception.EntityInvalidException;
+import br.uff.ic.devappcorp.exception.EntityNotFoundException;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
+import br.uff.ic.devappcorp.utils.Result;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,54 +28,64 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<StudentDto> findAll() {
         ArrayList<Student> students = Lists.newArrayList(studentRepository.findAll());
-        List<StudentDto> bookDtos = students
+        return students
                 .stream()
-                .map(b -> StudentDto.fromStudent(b))
+                .map(StudentDto::fromStudent)
                 .collect(Collectors.toList());
-        return bookDtos;
     }
 
     @RequestMapping(value = "/{studentId}", method = RequestMethod.GET)
-    public StudentDto findOne(@PathVariable Integer studentId) {
+    public StudentDto findOne(@PathVariable Long studentId) {
         Student student = studentRepository.findOne(studentId);
-        if(student == null) throw new ResourceNotFoundException();
-
+        if(student == null) throw new EntityNotFoundException();
         return StudentDto.fromStudent(student);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String create(StudentDto bindingModel) {
-        studentRepository.save(bindingModel.toStudent());
-        return "Saved";
-    }
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity create(StudentDto bindingModel) {
+        Result<PersonTaxNumber> taxNumber = PersonTaxNumber.create(bindingModel.taxNumber);
+        Result<PersonName> name = PersonName.create(bindingModel.name);
+        Result<EmailAddress> email = EmailAddress.create(bindingModel.email);
 
-    @RequestMapping(value = "/{studentId}", method = RequestMethod.PUT)
-    public void update(@PathVariable Integer studentId, StudentDto bindingModel) {
-        Student student = studentRepository.findOne(studentId);
-        if(student == null) throw new ResourceNotFoundException();
+        Result result = Result.combine(taxNumber, name, email);
+        if(result.isFailure()){
+            throw new EntityInvalidException(result.getError());
+        }
 
-        student = bindingModel.toStudent();
-        student.setCpf(studentId);
+        PersonDetail personDetail = new PersonDetail(taxNumber.value(), name.value(), email.value());
+        Student student = new Student(personDetail);
 
         studentRepository.save(student);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(student.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @RequestMapping(value = "/{studentId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Integer studentId) {
+    public void delete(@PathVariable Long studentId) {
         Student student = studentRepository.findOne(studentId);
-        if(student == null) throw new ResourceNotFoundException();
-
+        if(student == null) throw new EntityNotFoundException();
         studentRepository.delete(student);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+
+    @ExceptionHandler(EntityInvalidException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleInvalidEntityException(EntityInvalidException ex) {
+        //todo: logging
+        return "An error has occurred. " + ex.getMessage();
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public void handleResourceNotFoundException(ResourceNotFoundException ex)
-    {
-        //Log.warn("user requested a resource which didn't exist", ex);
+    public String handleResourceNotFoundException(EntityNotFoundException ex) {
+        //todo: logging
+        return StringUtils.isEmpty(ex.getMessage()) ? "Not found." : ex.getMessage();
     }
 
 }

@@ -1,13 +1,16 @@
 package br.uff.ic.devappcorp.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import br.uff.ic.devappcorp.entities.base.BaseEntity;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Professor extends Person {
+public class Professor extends BaseEntity {
+
+    @OneToOne
+    private PersonDetail personDetail;
+
     private String degree;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "advisor")
@@ -16,9 +19,11 @@ public class Professor extends Person {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "professor")
     private List<Classroom> classrooms;
 
-    public Professor() {
-    }
+    protected Professor() { } // jpa only
 
+    public Professor(PersonDetail personDetail){
+        this.personDetail = personDetail;
+    }
 
     public String getDegree() {
         return degree;

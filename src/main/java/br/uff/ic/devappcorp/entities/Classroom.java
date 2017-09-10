@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 public class Classroom extends BaseEntity {
+
     @Column
     private Integer year;
 
@@ -19,9 +20,7 @@ public class Classroom extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Professor professor;
 
-    public Classroom() {
-
-    }
+    protected Classroom() { } // jpa only
 
     public Integer getYear() {
         return year;
