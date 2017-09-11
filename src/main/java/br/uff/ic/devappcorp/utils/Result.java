@@ -55,7 +55,7 @@ public class Result<T> {
         for (Result r: results) {
             if(r.isFailure()){
                 isFailure = true;
-                sb.append(r.getError() + ". \n");
+                sb.append(r.getError() + "\n");
             }
         }
         return isFailure ? Result.fail(sb.toString()) : Result.ok();

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface StudentRepository extends BaseEntityRepository<Student> {
 
+    Optional<Student> findByPersonDetailTaxNumber(String taxNumber);
 }
