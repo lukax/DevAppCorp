@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// ("HATEOAS", "Hypermedia as the Engine of Application State") design pattern.
+// Hypermedia promotes service longevity by decoupling the consumer of a service
+// from intimate knowledge of that service’s surface area and topology. It describes
+// REST services. The service can answer questions about what to call, and when.
+
 @RestController
 @RequestMapping(value = "students", produces = "application/json;charset=UTF-8")
 public class StudentController {

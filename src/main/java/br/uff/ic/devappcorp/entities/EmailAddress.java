@@ -18,7 +18,10 @@ public class EmailAddress extends ValueObject<EmailAddress> {
 
     public static Result<EmailAddress> create(String email){
         if(email == null || email.trim().length() == 0){
-            return Result.fail("Email cannot be empty.");
+            return Result.fail("Email should not be empty.");
+        }
+        if(email.length() > 256){
+            return Result.fail("Email is too long.");
         }
         if(!validateEmail(email)){
             return Result.fail("Invalid email address");

@@ -19,6 +19,7 @@ public abstract class BaseEntity implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if(obj == null) return false;
         BaseEntity other;
         try{
             other = (BaseEntity) obj;
@@ -26,6 +27,7 @@ public abstract class BaseEntity implements Serializable {
         } catch (ClassCastException ex){
             return false;
         }
+        if(this.id == 0 || other.id == 0) return false;
         return this.id.equals(other.id);
     }
 }

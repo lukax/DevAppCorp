@@ -2,7 +2,7 @@ package br.uff.ic.devappcorp.entities;
 
 public class StudentDto {
 
-    public Integer taxNumber;
+    public String taxNumber;
     public String name;
     public String email;
 

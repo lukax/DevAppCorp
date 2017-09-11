@@ -12,10 +12,10 @@ public class PersonName extends ValueObject<PersonName> {
 
     public static Result<PersonName> create(String personName){
         if(personName == null || personName.trim().length() == 0){
-            return Result.fail("Name cannot be empty.");
+            return Result.fail("Name should not be empty.");
         }
         if(personName.length() >= 200){
-            return Result.fail("Name cannot exceed 200 characters.");
+            return Result.fail("Name is too long.");
         }
         return Result.ok(new PersonName(personName));
     }

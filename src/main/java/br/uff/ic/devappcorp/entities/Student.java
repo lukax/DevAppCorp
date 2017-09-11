@@ -8,13 +8,13 @@ import java.util.List;
 @Entity
 public class Student extends BaseEntity {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     private PersonDetail personDetail;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Professor advisor;
 
-    @ManyToMany
+    @ManyToMany()
     private List<Classroom> classrooms;
 
     protected Student() { } // jpa only

@@ -6,17 +6,17 @@ import javax.persistence.*;
 
 @Entity
 public class PersonDetail extends BaseEntity {
-    @Column(unique = true, nullable = false)
-    private Integer taxNumber;
 
-    @Column(nullable = false)
+    @Column(unique = true)
+    private String taxNumber;
+
+    @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
-    protected PersonDetail() {
-    }
+    protected PersonDetail() { } // jpa only
 
     public PersonDetail(PersonTaxNumber taxNumber, PersonName name, EmailAddress email)
     {
