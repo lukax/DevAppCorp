@@ -1,9 +1,7 @@
 package br.uff.ic.devappcorp.utils;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.util.StringUtils;
 
-import javax.naming.OperationNotSupportedException;
 
 public class Result<T> {
 
