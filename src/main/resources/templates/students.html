@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>List of Students</title>
+
+</head>
+<body>
+<div class="container">
+    
+    <div th:if="${not #lists.isEmpty(students)}">
+        <h2>Student List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Tax Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.taxNumber}"><a href="/students/${student.taxNumber}">TaxNumber</a></td>
+                <td th:text="${student.name}">Name</td>
+                <td th:text="${student.email}">Email</td>
+                
+                <td><a th:href="${'/students/' + student.taxNumber}">View</a></td>
+<!--                <td><a th:href="${'/students/edit/' + student.taxNumber}">Edit</a></td>-->
+                <td><a th:href="${'/students/delete/' + student.taxNumber}">Delete</a></td>
+            </tr>
+        </table>
+        <input type="button" onclick="location.href='/';" value="Back" />
+    </div>
+</div>
+
+</body>
+</html>
