@@ -3,23 +3,16 @@ package br.uff.ic.devappcorp.controllers;
 import br.uff.ic.devappcorp.entities.*;
 import br.uff.ic.devappcorp.exception.EntityInvalidException;
 import br.uff.ic.devappcorp.exception.EntityNotFoundException;
-import br.uff.ic.devappcorp.repositories.StudentRepository;
 import br.uff.ic.devappcorp.services.StudentService;
-import br.uff.ic.devappcorp.utils.Result;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 // ("HATEOAS", "Hypermedia as the Engine of Application State") design pattern.
 // Hypermedia promotes service longevity by decoupling the consumer of a service
@@ -57,7 +50,7 @@ public class StudentController {
 
     @RequestMapping(value = "/{taxNumber}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String taxNumber) {
-        studentService.delete(taxNumber);
+        studentService.deleteOneByTaxNumber(taxNumber);
     }
 
     @ExceptionHandler(EntityInvalidException.class)

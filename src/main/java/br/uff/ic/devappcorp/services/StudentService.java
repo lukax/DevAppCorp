@@ -58,7 +58,7 @@ public class StudentService {
         return student.getPersonDetail().getTaxNumber().getValue();
     }
 
-    public void delete(String taxNumber){
+    public void deleteOneByTaxNumber(String taxNumber){
         Optional<Student> studentOrNothing = studentRepository.findByPersonDetailTaxNumber(taxNumber);
         if(!studentOrNothing.isPresent())
             throw new EntityNotFoundException();
