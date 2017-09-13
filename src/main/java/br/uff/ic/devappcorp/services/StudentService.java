@@ -3,6 +3,7 @@ package br.uff.ic.devappcorp.services;
 import br.uff.ic.devappcorp.entities.*;
 import br.uff.ic.devappcorp.exception.EntityInvalidException;
 import br.uff.ic.devappcorp.exception.EntityNotFoundException;
+import br.uff.ic.devappcorp.repositories.ProfessorRepository;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
 import br.uff.ic.devappcorp.utils.Result;
 import com.google.common.collect.Lists;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final ProfessorRepository professorRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, ProfessorRepository professorRepository) {
         this.studentRepository = studentRepository;
+        this.professorRepository= professorRepository;
     }
 
     public List<StudentDto> findAll() {
@@ -64,6 +67,20 @@ public class StudentService {
             throw new EntityNotFoundException();
 
         studentRepository.delete(studentOrNothing.get());
+    }
+    
+    public void associateProfessor(String studentTaxNumber, String professorTaxNumber){
+        
+        Optional<Student> studentOrNothing = studentRepository.findByPersonDetailTaxNumber(studentTaxNumber);
+          if(!studentOrNothing.isPresent())
+            throw new EntityNotFoundException();
+          
+        Optional<Professor> professorOrNothing = professorRepository.findByPersonDetailTaxNumber(professorTaxNumber);
+          if(!professorOrNothing.isPresent())
+            throw new EntityNotFoundException();
+          
+        studentOrNothing.get().setAdvisor(professorOrNothing.get());
+        studentRepository.save(studentOrNothing.get());
     }
 
 }

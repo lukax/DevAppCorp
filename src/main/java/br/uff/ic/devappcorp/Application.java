@@ -1,6 +1,7 @@
 package br.uff.ic.devappcorp;
 
 import br.uff.ic.devappcorp.entities.*;
+import br.uff.ic.devappcorp.repositories.ProfessorRepository;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
 import br.uff.ic.devappcorp.utils.Result;
 import org.springframework.boot.CommandLineRunner;
@@ -19,9 +20,11 @@ public class Application {
 	}
 
 	@Bean
-	CommandLineRunner init(StudentRepository studentRepository) {
-		return (evt) -> Arrays.asList(
-			"Sandor Clegane,Thoros of Myr,Ser Jorah Mormont,Tormund Giantsbane,John Snow".split(","))
+	CommandLineRunner init(StudentRepository studentRepository,ProfessorRepository professorRepository) {
+		
+            
+            return (evt) -> Arrays.asList(
+			"Sandor Clegane,Thoros of Myr,Ser Jorah Mormont,Tormund Giantsbane,John Snow, Eddard Stark, Ygritte , Tyrion Lannister, Jaime Lannister, Cersei Lannister, Tywin Lannister".split(","))
 			.forEach(
 				a -> {
 					long rand = (long) (ThreadLocalRandom.current().nextDouble(1, 10) * 1_0_000_000_000L);
@@ -31,9 +34,16 @@ public class Application {
 					Result<EmailAddress> email = EmailAddress.create(a.replace(" ", ".").toLowerCase() + "@gmail.com");
 
 					PersonDetail personDetail = new PersonDetail(personTaxNumber.value(), personName.value(), email.value());
-					Student student = new Student(personDetail);
+					
+                                        if((long)ThreadLocalRandom.current().nextDouble(1, 10) >5L){
+                                            Student student = new Student(personDetail);
 
-					studentRepository.save(student);
+                                            studentRepository.save(student);
+                                        }else{
+                                            Professor professor = new Professor(personDetail);
+                                            
+                                            professorRepository.save(professor);
+                                        }
 				});
 	}
 }

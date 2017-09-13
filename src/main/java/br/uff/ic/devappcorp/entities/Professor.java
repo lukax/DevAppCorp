@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Professor extends BaseEntity {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     private PersonDetail personDetail;
 
     private String degree;
@@ -20,6 +20,8 @@ public class Professor extends BaseEntity {
     private List<Classroom> classrooms;
 
     protected Professor() { } // jpa only
+
+   
 
     public Professor(PersonDetail personDetail){
         this.personDetail = personDetail;
@@ -47,5 +49,9 @@ public class Professor extends BaseEntity {
 
     public void setClassrooms(List<Classroom> classrooms) {
         this.classrooms = classrooms;
+    }
+    
+     public PersonDetail getPersonDetail() {
+        return personDetail;
     }
 }

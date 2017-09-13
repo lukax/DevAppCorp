@@ -8,6 +8,7 @@ package br.uff.ic.devappcorp.controllers;
 import br.uff.ic.devappcorp.entities.StudentDto;
 import br.uff.ic.devappcorp.exception.EntityInvalidException;
 import br.uff.ic.devappcorp.exception.EntityNotFoundException;
+import br.uff.ic.devappcorp.services.ProfessorService;
 import br.uff.ic.devappcorp.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +29,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(value = "students", produces = "application/json;charset=UTF-8")
 public class StudentController {
       private final StudentService studentService;
-
+      private final ProfessorService professorService;
     @Autowired
-    public StudentController(StudentService studentService){
+    public StudentController(StudentService studentService,ProfessorService professorService){
         this.studentService = studentService;
+        this.professorService=professorService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -51,6 +53,25 @@ public class StudentController {
         model.addAttribute("student", new StudentDto());
         return "insert";
     }
+    
+    @RequestMapping("/associate/{taxNumber}")
+    public String associate(@PathVariable String taxNumber, Model model) {
+        model.addAttribute("student", studentService.findOneByTaxNumber(taxNumber));
+        model.addAttribute("professors", professorService.findAll());
+        return "associate";
+    }
+    
+    @RequestMapping("/choose/{studentProfessor}")
+    public String choose(@PathVariable String studentProfessor, Model model) {
+        
+        String [] partes = studentProfessor.split("$");
+        studentService.associateProfessor(partes[0], partes[1]);
+        
+        model.addAttribute("student", studentService.findOneByTaxNumber(partes[0]));
+        
+        return "student";
+    }
+    
     
     @RequestMapping(method = RequestMethod.POST)
     public String create(StudentDto student) {

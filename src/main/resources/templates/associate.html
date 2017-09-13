@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Associate a Professor</title>
+
+</head>
+<body>
+<div class="container">
+    
+    <div th:if="${not #lists.isEmpty(professors)}">
+        <h2>Student List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Tax Number</th>
+                <th>Name</th>
+                <th>Email</th>
+<!--                <th>View</th>
+                <th>Edit</th>-->
+                <th>Choose</th>
+            </tr>
+            <tr th:each="professor : ${professors}">
+                <td th:text="${professor.taxNumber}">TaxNumber</td>
+                <td th:text="${professor.name}">Name</td>
+                <td th:text="${professor.email}">Email</td>
+                
+<!--                <td><a th:href="${'/students/' + professor.taxNumber}">View</a></td>-->
+<!--                <td><a th:href="${'/students/edit/' + professor.taxNumber}">Edit</a></td>-->
+                <td><a th:href="${'/students/choose/' + student.taxNumber+'$'+professor.taxNumber}">Choose As Advisor</a></td>
+            </tr>
+        </table>
+        <input type="button" onclick="location.href='/';" value="Home" />
+    </div>
+</div>
+
+</body>
+</html>
