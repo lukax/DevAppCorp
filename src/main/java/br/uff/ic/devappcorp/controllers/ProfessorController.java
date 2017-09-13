@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- *
- * @author Eduar
- */
 @Component
 @RequestMapping(value = "professors", produces = "application/json;charset=UTF-8")
 public class ProfessorController {

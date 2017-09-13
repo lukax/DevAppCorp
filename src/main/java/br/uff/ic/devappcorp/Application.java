@@ -21,10 +21,8 @@ public class Application {
 
 	@Bean
 	CommandLineRunner init(StudentRepository studentRepository,ProfessorRepository professorRepository) {
-		
-            
-            return (evt) -> Arrays.asList(
-			"Sandor Clegane,Thoros of Myr,Ser Jorah Mormont,Tormund Giantsbane,John Snow, Eddard Stark, Ygritte , Tyrion Lannister, Jaime Lannister, Cersei Lannister, Tywin Lannister".split(","))
+		return (evt) -> Arrays.asList(
+			"Sandor Clegane,Thoros of Myr,Ser Jorah Mormont,Tormund Giantsbane,John Snow,Eddard Stark,Ygritte,Tyrion Lannister,Jaime Lannister,Cersei Lannister,Tywin Lannister".split(","))
 			.forEach(
 				a -> {
 					long rand = (long) (ThreadLocalRandom.current().nextDouble(1, 10) * 1_0_000_000_000L);
@@ -34,16 +32,16 @@ public class Application {
 					Result<EmailAddress> email = EmailAddress.create(a.replace(" ", ".").toLowerCase() + "@gmail.com");
 
 					PersonDetail personDetail = new PersonDetail(personTaxNumber.value(), personName.value(), email.value());
-					
-                                        if((long)ThreadLocalRandom.current().nextDouble(1, 10) >5L){
-                                            Student student = new Student(personDetail);
 
-                                            studentRepository.save(student);
-                                        }else{
-                                            Professor professor = new Professor(personDetail);
-                                            
-                                            professorRepository.save(professor);
-                                        }
+					if((long)ThreadLocalRandom.current().nextDouble(1, 10) > 5L){
+						Student student = new Student(personDetail);
+
+						studentRepository.save(student);
+					}else{
+						Professor professor = new Professor(personDetail);
+
+						professorRepository.save(professor);
+					}
 				});
 	}
 }

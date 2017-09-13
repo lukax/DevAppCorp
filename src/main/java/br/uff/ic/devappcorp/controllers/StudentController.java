@@ -15,16 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-/**
- *
- * @author Eduar
- */
 @Component
 @RequestMapping(value = "students", produces = "application/json;charset=UTF-8")
 public class StudentController {
@@ -61,13 +53,14 @@ public class StudentController {
         return "associate";
     }
     
-    @RequestMapping("/choose/{studentProfessor}")
-    public String choose(@PathVariable String studentProfessor, Model model) {
+    @RequestMapping(value = "/choose/{studentTaxNumber}", params = {"professorTaxNumber"})
+    public String choose(@PathVariable String studentTaxNumber,
+                         @RequestParam String professorTaxNumber,
+                         Model model) {
         
-        String [] partes = studentProfessor.split("$");
-        studentService.associateProfessor(partes[0], partes[1]);
+        studentService.associateProfessor(studentTaxNumber, professorTaxNumber);
         
-        model.addAttribute("student", studentService.findOneByTaxNumber(partes[0]));
+        model.addAttribute("student", studentService.findOneByTaxNumber(studentTaxNumber));
         
         return "student";
     }

@@ -26,7 +26,7 @@
                 
 <!--                <td><a th:href="${'/students/' + professor.taxNumber}">View</a></td>-->
 <!--                <td><a th:href="${'/students/edit/' + professor.taxNumber}">Edit</a></td>-->
-                <td><a th:href="${'/students/choose/' + student.taxNumber+'$'+professor.taxNumber}">Choose As Advisor</a></td>
+                <td><a th:href="${'/students/choose/' + student.taxNumber+'?professorTaxNumber='+professor.taxNumber}">Choose As Advisor</a></td>
             </tr>
         </table>
         <input type="button" onclick="location.href='/';" value="Home" />

@@ -5,10 +5,6 @@
  */
 package br.uff.ic.devappcorp.entities;
 
-/**
- *
- * @author Eduar
- */
 public class ProfessorDto {
  
     public String taxNumber;
