@@ -12,18 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
 import org.springframework.ui.Model;
 
-// ("HATEOAS", "Hypermedia as the Engine of Application State") design pattern.
-// Hypermedia promotes service longevity by decoupling the consumer of a service
-// from intimate knowledge of that service’s surface area and topology. It describes
-// REST services. The service can answer questions about what to call, and when.
-
-
-//OLD
 @RestController
-//@RequestMapping(value = "students", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "api/v1/students", produces = "application/json;charset=UTF-8")
 public class StudentRestController {
     private final StudentService studentService;
 
@@ -32,18 +26,17 @@ public class StudentRestController {
         this.studentService = studentService;
     }
 
-  //  @RequestMapping(method = RequestMethod.GET)
-    public String findAll(Model model) {
-        model.addAttribute("students", studentService.findAll());
-        return "students";
+    @RequestMapping(method = RequestMethod.GET)
+    public List<StudentDto> findAll(Model model) {
+        return studentService.findAll();
     }
 
-  //  @RequestMapping(value = "/{taxNumber}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{taxNumber}", method = RequestMethod.GET)
     public StudentDto findOne(@PathVariable String taxNumber) {
         return studentService.findOneByTaxNumber(taxNumber);
     }
 
-  //  @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody StudentDto bindingModel) {
         String taxNumber = studentService.save(bindingModel);
         URI location = ServletUriComponentsBuilder
@@ -52,7 +45,7 @@ public class StudentRestController {
         return ResponseEntity.created(location).build();
     }
 
-    //@RequestMapping(value = "/{taxNumber}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{taxNumber}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String taxNumber) {
         studentService.deleteOneByTaxNumber(taxNumber);
     }
