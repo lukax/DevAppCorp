@@ -6,7 +6,8 @@
 
 </head>
 <body>
-<div class="">
+<!--/*@thymesVar id="student" type="br.uff.ic.devappcorp.entities.StudentDto"*/-->
+<div class="container">
     
     <div >
         <h2>Student</h2>
@@ -29,12 +30,13 @@
                 <td><a th:href="${'/student/delete/' + student.taxNumber}">Delete</a></td>
             </tr>
         </table>-->
-        
+
          <p th:text="${student.name}"/>
          <p th:text="${student.taxNumber}"/>
          <p th:text="${student.email}"/>
          <p th:text="${student.advisorName}"/>
-         <input type="button" onclick="location.href='/students';" value="Student List" />
+        <a th:href="@{/students}" >Students</a>
+
     </div>
 </div>
 

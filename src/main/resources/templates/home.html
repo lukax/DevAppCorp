@@ -12,8 +12,9 @@
               
         <h1>Hello</h1>
         
-        <input type="button" onclick="location.href='/students';" value="List of Students" />
-        <input type="button" onclick="location.href='/students/new';" value="Add Student" />
+        <a th:href="@{/students}">Students</a>
+        <a th:href="@{/students/new}">New Student</a>
+
         
     </div>
 </div>

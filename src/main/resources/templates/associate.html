@@ -6,6 +6,8 @@
 
 </head>
 <body>
+<!--/*@thymesVar id="student" type="br.uff.ic.devappcorp.entities.StudentDto"*/-->
+<!--/*@thymesVar id="professors" type="java.util.List<br.uff.ic.devappcorp.entities.ProfessorDto>"*/-->
 <div class="container">
     
     <div th:if="${not #lists.isEmpty(professors)}">
@@ -29,7 +31,8 @@
                 <td><a th:href="${'/students/choose/' + student.taxNumber+'?professorTaxNumber='+professor.taxNumber}">Choose As Advisor</a></td>
             </tr>
         </table>
-        <input type="button" onclick="location.href='/';" value="Home" />
+        <a th:href="@{/}">Home</a>
+
     </div>
 </div>
 
