@@ -8,15 +8,17 @@ import java.util.List;
 @Entity
 public class Professor extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+              optional = false,
+              orphanRemoval = true)
     private PersonDetail personDetail;
 
     private String degree;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "advisor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "advisor")
     private List<Student> students;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "professor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
     private List<Classroom> classrooms;
 
     protected Professor() { } // jpa only
