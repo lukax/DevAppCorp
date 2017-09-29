@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-
-    <title>Insert a Student</title>
-
-</head>
+<head th:replace="template :: header"></head>
 <body>
+
+<nav th:replace="template :: nav"></nav>
+
 <!--/*@thymesVar id="student" type="br.uff.ic.devappcorp.entities.StudentDto"*/-->
 <div class="container">
   
@@ -34,12 +33,13 @@
             </div>
             <div class="row">
                 <button type="submit" class="btn btn-default">Submit</button>
-                <a th:href="@{/}">Home</a>
             </div>
         </form>
            
     </div>
 </div>
+
+<footer th:replace="template :: footer"></footer>
 
 </body>
 </html>

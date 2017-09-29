@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-
-    <title>DevAppCorp</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-</head>
+<head th:replace="template :: header"></head>
 <body>
-<div class="container">
-    <div >
-              
-        <h1>Hello</h1>
-        
-        <a th:href="@{/students}">Students</a>
-        <a th:href="@{/students/new}">New Student</a>
 
-        
+<nav th:replace="template :: nav"></nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Welcome!</h1>
+        <p><a class="btn btn-primary btn-lg" th:href="@{/students}" role="button">View students »</a></p>
     </div>
 </div>
+
+<footer th:replace="template :: footer"></footer>
 
 </body>
 </html>

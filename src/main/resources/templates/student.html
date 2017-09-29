@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-
-    <title>Student</title>
-
-</head>
+<head th:replace="template :: header"></head>
 <body>
+
+<nav th:replace="template :: nav"></nav>
+
 <!--/*@thymesVar id="student" type="br.uff.ic.devappcorp.entities.StudentDto"*/-->
 <div class="container">
     
@@ -35,10 +34,11 @@
          <p th:text="${student.taxNumber}"/>
          <p th:text="${student.email}"/>
          <p th:text="${student.advisorName}"/>
-        <a th:href="@{/students}" >Students</a>
 
     </div>
 </div>
+
+<footer th:replace="template :: footer"></footer>
 
 </body>
 </html>
