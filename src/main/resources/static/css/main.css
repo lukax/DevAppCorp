@@ -290,3 +290,9 @@ button.social-signin.google {
   background: #DD4B39;
 }
 
+.signout-btn{
+  background-color: transparent !important;
+  margin-top: 0 !important;
+  width:100% !important;
+  color: black !important;
+}

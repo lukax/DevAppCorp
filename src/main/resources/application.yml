@@ -24,6 +24,8 @@ spring:
     cache: false
   resources:
     cache-period: 0
+    chain:
+      cache: false
 
 ###
 #   H2 Settings
