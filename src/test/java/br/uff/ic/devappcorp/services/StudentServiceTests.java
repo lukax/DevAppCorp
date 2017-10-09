@@ -14,4 +14,8 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 public class StudentServiceTests {
 
+    @Test
+    public void contextLoads() {
+    }
+
 }
