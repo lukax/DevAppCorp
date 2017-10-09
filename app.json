@@ -1,0 +1,5 @@
+{
+  "name": "SchoolCloud App",
+  "description": "Easily manage students.",
+  "addons": [ "heroku-postgresql" ]
+}
