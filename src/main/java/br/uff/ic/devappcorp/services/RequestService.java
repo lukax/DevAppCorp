@@ -13,6 +13,7 @@ import br.uff.ic.devappcorp.exception.EntityNotFoundException;
 import br.uff.ic.devappcorp.repositories.ProfessorRepository;
 import br.uff.ic.devappcorp.repositories.RequestRepository;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,9 @@ public class RequestService {
                  
         List<Request> requestList = requestRepository.findByProfessor(professorOrNothing.get());
        
-        return requestList;
+        
+        //TODO: FINISH IMPLEMENTATION
+        return new ArrayList<RequestDto>();
     }
 
 }
