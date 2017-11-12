@@ -21,6 +21,9 @@ public class Professor extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
     private List<Classroom> classrooms;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
+    private List<Request> requests;
+    
     protected Professor() { } // jpa only
 
    
@@ -55,5 +58,26 @@ public class Professor extends BaseEntity {
     
      public PersonDetail getPersonDetail() {
         return personDetail;
+    }
+
+    /**
+     * @param personDetail the personDetail to set
+     */
+    public void setPersonDetail(PersonDetail personDetail) {
+        this.personDetail = personDetail;
+    }
+
+    /**
+     * @return the requests
+     */
+    public List<Request> getRequests() {
+        return requests;
+    }
+
+    /**
+     * @param requests the requests to set
+     */
+    public void setRequests(List<Request> requests) {
+        this.requests = requests;
     }
 }

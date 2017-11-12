@@ -19,6 +19,9 @@ public class Student extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Classroom> classrooms;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<Request> requests;
+    
     protected Student() { } // jpa only
 
     public Student(PersonDetail personDetail) {
@@ -43,6 +46,20 @@ public class Student extends BaseEntity {
 
     public void setClassrooms(List<Classroom> classrooms) {
         this.classrooms = classrooms;
+    }
+
+    /**
+     * @return the requests
+     */
+    public List<Request> getRequests() {
+        return requests;
+    }
+
+    /**
+     * @param requests the requests to set
+     */
+    public void setRequests(List<Request> requests) {
+        this.requests = requests;
     }
 
 }
