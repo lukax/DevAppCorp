@@ -9,8 +9,8 @@
 <div class="container">
     
     <div >
-        <h2>Student</h2>
-<!--        <table class="table table-striped">
+        <!--<h2>Student</h2>
+            <table class="table table-striped">
             <tr>
                 <th>Tax Number</th>
                 <th>Name</th>
@@ -30,10 +30,34 @@
             </tr>
         </table>-->
 
-         <p th:text="${student.name}"/>
+         <!--<p th:text="${student.name}"/>
          <p th:text="${student.taxNumber}"/>
          <p th:text="${student.email}"/>
-         Advisor: <p th:text="${student.advisorName}"/>
+         Advisor: <p th:text="${student.advisorName}"/>-->
+
+        <div class="contact-wrap elem">
+            <div class="contact-card">
+                <img src="https://i.pinimg.com/736x/e0/f1/ce/e0f1ce87aa533e3077072465a63e97d7--daenerys-targaryen-emilia-clarke.jpg" alt="Photo" />
+                <div class="transition-bar">
+                    <p class="active">Student</p>
+                </div>
+                <div class="contact-content-wrap">
+                    <div class="content contact-content-1">
+                        <p th:text="${student.name}"/>
+                        <p><span>STUDENT</span></p>
+
+                        CPF: <p th:text="${student.taxNumber}"/>
+                        E-mail: <p th:text="${student.email}"/>
+                        Advisor: <p th:text="${student.advisorName}"/>
+
+                        <!--<p><span>99999-9999</span></p>
+                        <p><span>sandor@gmail.com</span></p>
+                        <p><span>UFF - Red Beach</span></p>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

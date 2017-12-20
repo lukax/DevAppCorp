@@ -9,8 +9,8 @@
 <div class="container">
     
     <div >
-        <h2>Professor</h2>
-<!--        <table class="table table-striped">
+        <!--<h2>Professor</h2>
+        <table class="table table-striped">
             <tr>
                 <th>Tax Number</th>
                 <th>Name</th>
@@ -30,10 +30,34 @@
             </tr>
         </table>-->
 
-         <p th:text="${professor.name}"/>
-         <p th:text="${professor.taxNumber}"/>
+
+<!--         <p th:text="${professor.taxNumber}"/>
          <p th:text="${professor.email}"/>
-         Advising: <p th:text="${professor.advising}"/>
+         Advising: <p th:text="${professor.advising}"/>-->
+
+            <div class="contact-wrap elem">
+                <div class="contact-card">
+                    <img src="http://vignette3.wikia.nocookie.net/gameofthrones/images/2/22/Sandor_profile.jpg/revision/latest?cb=20130111180246" alt="Photo" />
+                    <div class="transition-bar">
+                        <p class="active">Professor</p>
+                    </div>
+                    <div class="contact-content-wrap">
+                        <div class="content contact-content-1">
+                            <p th:text="${professor.name}"/>
+                            <p><span>PROFESSOR</span></p>
+
+                            CPF: <p th:text="${professor.taxNumber}"/>
+                            E-mail: <p th:text="${professor.email}"/>
+                            Advising: <p th:text="${professor.advising}"/>
+
+                            <!--<p><span>99999-9999</span></p>
+                            <p><span>sandor@gmail.com</span></p>
+                            <p><span>UFF - Red Beach</span></p>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     </div>
 </div>
