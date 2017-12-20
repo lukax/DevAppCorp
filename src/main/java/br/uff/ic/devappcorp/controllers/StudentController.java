@@ -58,13 +58,37 @@ public class StudentController {
                          @RequestParam String professorTaxNumber,
                          Model model) {
         
-        studentService.associateProfessor(studentTaxNumber, professorTaxNumber);
+        studentService.createRequest(studentTaxNumber, professorTaxNumber);
+        
+       // model.addAttribute("student", studentService.findOneByTaxNumber(studentTaxNumber));
+        
+        return "redirect:/students";
+    }
+    
+      
+    @RequestMapping(value = "/acceptProfessor/{studentTaxNumber}", params = {"professorTaxNumber"})
+    public String acceptProfessor(@PathVariable String studentTaxNumber,
+                         @RequestParam String professorTaxNumber,
+                         Model model) {
+        
+        studentService.associate(studentTaxNumber, professorTaxNumber);
+        
+        //model.addAttribute("student", studentService.findOneByTaxNumber(studentTaxNumber));
+        
+        return "redirect:/requests/professor/"+professorTaxNumber;
+    }
+    
+    @RequestMapping(value = "/acceptStudent/{studentTaxNumber}", params = {"professorTaxNumber"})
+    public String acceptStudent(@PathVariable String studentTaxNumber,
+                         @RequestParam String professorTaxNumber,
+                         Model model) {
+        
+        studentService.associate(studentTaxNumber, professorTaxNumber);
         
         model.addAttribute("student", studentService.findOneByTaxNumber(studentTaxNumber));
         
         return "student";
     }
-    
     
     @RequestMapping(method = RequestMethod.POST)
     public String create(StudentDto student) {

@@ -8,6 +8,7 @@ package br.uff.ic.devappcorp.services;
 import br.uff.ic.devappcorp.entities.Professor;
 import br.uff.ic.devappcorp.entities.Request;
 import br.uff.ic.devappcorp.entities.RequestDto;
+import br.uff.ic.devappcorp.entities.Student;
 import br.uff.ic.devappcorp.entities.StudentDto;
 import br.uff.ic.devappcorp.exception.EntityNotFoundException;
 import br.uff.ic.devappcorp.repositories.ProfessorRepository;
@@ -37,17 +38,34 @@ public class RequestService {
         this.professorRepository= professorRepository;
     }
     
-       public List<RequestDto> findListByProfessor(String taxNumber){
+    public List<RequestDto> findListByProfessor(String taxNumber){
         
         Optional<Professor> professorOrNothing = professorRepository.findByPersonDetailTaxNumber(taxNumber);
          if(!professorOrNothing.isPresent())
             throw new EntityNotFoundException();
                  
-        List<Request> requestList = requestRepository.findByProfessor(professorOrNothing.get());
-       
+        List<Request> requestList = requestRepository.findByProfessor(professorOrNothing.get().getPersonDetail().getTaxNumber().getValue());
         
-        //TODO: FINISH IMPLEMENTATION
-        return new ArrayList<RequestDto>();
+        List<RequestDto> list = new ArrayList<RequestDto>();
+        for (Request request : requestList) {
+              list.add(new RequestDto().fromRequest(request));               
+        }               
+        return list;
+    }
+    
+     public List<RequestDto> findListByStudent(String taxNumber){
+        
+        Optional<Student> studentOrNothing = studentRepository.findByPersonDetailTaxNumber(taxNumber);
+         if(!studentOrNothing.isPresent())
+            throw new EntityNotFoundException();
+                 
+        List<Request> requestList = requestRepository.findByStudent(studentOrNothing.get().getPersonDetail().getTaxNumber().getValue());
+        
+        List<RequestDto> list = new ArrayList<RequestDto>();
+        for (Request request : requestList) {
+              list.add(new RequestDto().fromRequest(request));               
+        }               
+        return list;
     }
 
 }

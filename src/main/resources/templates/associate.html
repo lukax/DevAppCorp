@@ -10,7 +10,7 @@
 <div class="container">
     
     <div th:if="${not #lists.isEmpty(professors)}">
-        <h2>Student List</h2>
+        <h2>Professors List</h2>
         <table class="table table-striped">
             <tr>
                 <th>Tax Number</th>
@@ -28,6 +28,29 @@
 <!--                <td><a th:href="${'/students/' + professor.taxNumber}">View</a></td>-->
 <!--                <td><a th:href="${'/students/edit/' + professor.taxNumber}">Edit</a></td>-->
                 <td><a th:href="${'/students/choose/' + student.taxNumber+'?professorTaxNumber='+professor.taxNumber}">Choose As Advisor</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <div th:if="${not #lists.isEmpty(students)}">
+        <h2>Student List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Tax Number</th>
+                <th>Name</th>
+                <th>Email</th>
+<!--                <th>View</th>
+                <th>Edit</th>-->
+                <th>Choose</th>
+            </tr>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.taxNumber}">TaxNumber</td>
+                <td th:text="${student.name}">Name</td>
+                <td th:text="${student.email}">Email</td>
+                
+<!--                <td><a th:href="${'/students/' + professor.taxNumber}">View</a></td>-->
+<!--                <td><a th:href="${'/students/edit/' + professor.taxNumber}">Edit</a></td>-->
+                <td><a th:href="${'/professors/choose/' + student.taxNumber+'?professorTaxNumber='+professor.taxNumber}">Choose To Advise</a></td>
             </tr>
         </table>
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: header"></head>
+<body>
+
+<nav th:replace="template :: nav"></nav>
+
+<!--/*@thymesVar id="student" type="br.uff.ic.devappcorp.entities.StudentDto"*/-->
+<!--/*@thymesVar id="professors" type="java.util.List<br.uff.ic.devappcorp.entities.ProfessorDto>"*/-->
+<div class="container">
+    
+    <div th:if="${not #lists.isEmpty(professors)}">
+        <h2>Professors List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Tax Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>View</th> 
+                <th>Advise</th>
+                <th>Requests</th>
+            </tr>
+            <tr th:each="professor : ${professors}">
+                <td th:text="${professor.taxNumber}">TaxNumber</td>
+                <td th:text="${professor.name}">Name</td>
+                <td th:text="${professor.email}">Email</td>
+                
+                <td><a th:href="${'/professors/' + professor.taxNumber}">View</a></td>
+                <td><a th:href="${'/professors/associate/' + professor.taxNumber}">Choose to advise</a></td>                
+                <td><a th:href="${'/requests/professor/' + professor.taxNumber}">Requests</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <div th:unless="${not #lists.isEmpty(professors)}">
+        <div>No Professors!</div>
+    </div>
+</div>
+
+<footer th:replace="template :: footer"></footer>
+
+</body>
+</html>

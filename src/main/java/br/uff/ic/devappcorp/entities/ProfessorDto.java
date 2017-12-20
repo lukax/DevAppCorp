@@ -10,14 +10,17 @@ public class ProfessorDto {
     public String taxNumber;
     public String name;
     public String email;
-
+    public String advising;
     
     public static ProfessorDto fromProfessor(Professor professor){
         ProfessorDto professorDto = new ProfessorDto();
         professorDto.taxNumber = professor.getPersonDetail().getTaxNumber().getValue();
         professorDto.name = professor.getPersonDetail().getName().getValue();
         professorDto.email = professor.getPersonDetail().getEmail().getValue();
-
+        professorDto.advising = "";
+        for (Student student : professor.getStudents()) {
+            professorDto.advising += student.getPersonDetail().getName().getValue()+"; ";
+        }
         return professorDto;
     }
 
@@ -43,6 +46,14 @@ public class ProfessorDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getAdvising() {
+        return advising;
+    }
+
+    public void setAdvising(String advising) {
+        this.advising = advising;
     }
 
 }

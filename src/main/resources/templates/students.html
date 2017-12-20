@@ -17,6 +17,7 @@
                 <th>Email</th>
                 <th>View</th>
                 <th>Advisors</th>
+                <th>Requests</th>
                 <th>Delete</th>
             </tr>
             <tr th:each="student : ${students}">
@@ -26,6 +27,7 @@
                 
                 <td><a th:href="${'/students/' + student.taxNumber}">View</a></td>
                 <td><a th:href="${'/students/associate/' + student.taxNumber}">Advisor</a></td>
+                <td><a th:href="${'/requests/student/' + student.taxNumber}">Requests</a></td>
                 <td><a th:href="${'/students/delete/' + student.taxNumber}">Delete</a></td>
             </tr>
         </table>

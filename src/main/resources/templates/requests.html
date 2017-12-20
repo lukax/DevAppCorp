@@ -5,30 +5,52 @@
 
 <nav th:replace="template :: nav"></nav>
 
-<!--/*@thymesVar id="students" type="java.util.List<br.uff.ic.devappcorp.entities.StudentDto>"*/-->
+
 <div class="container">
     
-    <div th:if="${not #lists.isEmpty(students)}">
-        <h2>Student List</h2>
+    <div th:if="${not #lists.isEmpty(professorRequests)}">
+        <h2>Student Requests List</h2>
         <table class="table table-striped">
             <tr>
                 <th>Tax Number</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>View</th>
-                <th>Advisors</th>
-                <th>Delete</th>
+                <th>Student Requesting</th>
+                <th>Accept</th>
+                <th>Decline</th>
             </tr>
-            <tr th:each="student : ${students}">
-                <td th:text="${student.taxNumber}"><a th:href="@{/students/${student.taxNumber}}">TaxNumber</a></td>
-                <td th:text="${student.name}">Name</td>
-                <td th:text="${student.email}">Email</td>
+            <tr th:each="request : ${professorRequests}">
+                <td th:text="${request.studentTaxNumber}">TaxNumber</td>
+                <td th:text="${request.studentName}">Name</td>                
                 
-                <td><a th:href="${'/students/' + student.taxNumber}">View</a></td>
-                <td><a th:href="${'/students/associate/' + student.taxNumber}">Advisor</a></td>
-                <td><a th:href="${'/students/delete/' + student.taxNumber}">Delete</a></td>
+                <td ><a th:href="${'/students/acceptProfessor/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Accept</a></td>
+                <td >Decline</td>
+                                
+             
             </tr>
         </table>
+    </div>
+    <div th:if="${not #lists.isEmpty(studentRequests)}">
+        <h2>Professor Requests List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Tax Number</th>
+                <th>Professor Requesting</th>
+                <th>Accept</th>
+                <th>Decline</th>
+            </tr>
+            <tr th:each="request : ${studentRequests}">
+                <td th:text="${request.professorTaxNumber}">TaxNumber</td>
+                <td th:text="${request.professorName}">Name</td>                
+                
+                
+                <td ><a th:href="${'/students/acceptStudent/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Accept</a></td>
+                <td >Decline</td>
+                                
+             
+            </tr>
+        </table>
+    </div>
+      <div th:unless="${not #lists.isEmpty(studentRequests) or not #lists.isEmpty(professorRequests)}">
+        <div>No Requests!</div>
     </div>
 </div>
 

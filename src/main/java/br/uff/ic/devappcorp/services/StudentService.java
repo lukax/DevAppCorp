@@ -4,6 +4,7 @@ import br.uff.ic.devappcorp.entities.*;
 import br.uff.ic.devappcorp.exception.EntityInvalidException;
 import br.uff.ic.devappcorp.exception.EntityNotFoundException;
 import br.uff.ic.devappcorp.repositories.ProfessorRepository;
+import br.uff.ic.devappcorp.repositories.RequestRepository;
 import br.uff.ic.devappcorp.repositories.StudentRepository;
 import br.uff.ic.devappcorp.utils.Result;
 import com.google.common.collect.Lists;
@@ -20,11 +21,13 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final ProfessorRepository professorRepository;
-
+    private final RequestRepository requestRepository;
+    
     @Autowired
-    public StudentService(StudentRepository studentRepository, ProfessorRepository professorRepository) {
+    public StudentService(StudentRepository studentRepository, ProfessorRepository professorRepository, RequestRepository requestRepository) {
         this.studentRepository = studentRepository;
         this.professorRepository= professorRepository;
+        this.requestRepository = requestRepository;
     }
 
     public List<StudentDto> findAll() {
@@ -69,7 +72,7 @@ public class StudentService {
         studentRepository.delete(studentOrNothing.get());
     }
     
-    public void associateProfessor(String studentTaxNumber, String professorTaxNumber){
+    public void createRequest(String studentTaxNumber, String professorTaxNumber){
         
         Optional<Student> studentOrNothing = studentRepository.findByPersonDetailTaxNumber(studentTaxNumber);
           if(!studentOrNothing.isPresent())
@@ -79,8 +82,32 @@ public class StudentService {
           if(!professorOrNothing.isPresent())
             throw new EntityNotFoundException();
           
-        studentOrNothing.get().setAdvisor(professorOrNothing.get());
-        studentRepository.save(studentOrNothing.get());
+          
+        Request req = new Request();
+        req.setProfessor(professorOrNothing.get());
+        req.setStudent(studentOrNothing.get());
+        
+        requestRepository.save(req);
     }
+    
+     public void associate(String studentTaxNumber, String professorTaxNumber){
+        
+        Optional<Student> studentOrNothing = studentRepository.findByPersonDetailTaxNumber(studentTaxNumber);
+          if(!studentOrNothing.isPresent())
+            throw new EntityNotFoundException();
+          
+        Optional<Professor> professorOrNothing = professorRepository.findByPersonDetailTaxNumber(professorTaxNumber);
+          if(!professorOrNothing.isPresent())
+            throw new EntityNotFoundException();
+          
+          
+        studentOrNothing.get().setAdvisor(professorOrNothing.get());
+        
+        studentRepository.save(studentOrNothing.get());
+        
+        Request req = requestRepository.findByStudentAndProfessor(studentOrNothing.get().getPersonDetail().getTaxNumber().getValue(), professorOrNothing.get().getPersonDetail().getTaxNumber().getValue());
+        requestRepository.delete(req);
+    }
+
 
 }
