@@ -22,7 +22,7 @@
                 <td th:text="${request.studentName}">Name</td>                
                 
                 <td ><a th:href="${'/students/acceptProfessor/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Accept</a></td>
-                <td >Decline</td>
+                <td ><a th:href="${'/requests/declineProfessor/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Decline</a></td>
                                 
              
             </tr>
@@ -43,7 +43,7 @@
                 
                 
                 <td ><a th:href="${'/students/acceptStudent/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Accept</a></td>
-                <td >Decline</td>
+                <td ><a th:href="${'/requests/declineStudent/' + request.studentTaxNumber+'?professorTaxNumber='+request.professorTaxNumber}">Decline</a></td>
                                 
              
             </tr>

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -38,6 +39,28 @@ public class RequestController {
     public String findByStudent(@PathVariable String taxNumber, Model model) {
         model.addAttribute("studentRequests", requestService.findListByStudent(taxNumber));
         return "requests";
+    }
+    
+    @RequestMapping(value = "/declineProfessor/{studentTaxNumber}", params = {"professorTaxNumber"})
+    public String declineProfessor(@PathVariable String studentTaxNumber,
+                         @RequestParam String professorTaxNumber,
+                         Model model) {
+        
+        requestService.delete(studentTaxNumber, professorTaxNumber);
+                
+        
+        return "redirect:/requests/professor/"+professorTaxNumber;
+    }
+    
+    @RequestMapping(value = "/declineStudent/{studentTaxNumber}", params = {"professorTaxNumber"})
+    public String declineStudent(@PathVariable String studentTaxNumber,
+                         @RequestParam String professorTaxNumber,
+                         Model model) {
+        
+        requestService.delete(studentTaxNumber, professorTaxNumber);
+                
+        
+        return "redirect:/students";
     }
         
 }

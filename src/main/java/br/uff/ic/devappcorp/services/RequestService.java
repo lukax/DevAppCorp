@@ -67,5 +67,10 @@ public class RequestService {
         }               
         return list;
     }
+     
+    public void delete(String studentTaxNumber, String professorTaxNumber){               
+        Request req = requestRepository.findByStudentAndProfessor(studentTaxNumber, professorTaxNumber);
+        requestRepository.delete(req);
+    }
 
 }
